@@ -91,7 +91,7 @@
 <button class="caption-button" id="toggle-captions">Toggle Subtitles</button>
 <br><br>
 
-<a href="index_transformers.html">← Back to Movies</a>
+<a href="index.html">← Back to Movies</a>
 
 <script>
 const params = new URLSearchParams(window.location.search);
@@ -155,7 +155,7 @@ if (Hls.isSupported()) {
   });
 } else {
   alert("Your browser doesn't support HLS!");
-  window.location.href = "index_transformers.html";
+  window.location.href = "index.html";
 }
 
 if (subtitleUrl) {
@@ -201,7 +201,7 @@ videoPlayer.addEventListener('ended', () => {
     const nextUrl = `player_transformers.html?title=${encodeURIComponent(nextMovie.title)}&video=${encodeURIComponent(nextMovie.video)}&index=${currentIndex + 1}`;
     window.location.href = nextUrl;
   } else {
-    window.location.href = "index_transformers.html";
+    window.location.href = "index.html";
   }
 });
 </script>
