@@ -1,104 +1,127 @@
-<!-- index.html for Transformers Universe -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transformers Universe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      background-color: #000;
-      color: #fff;
+      background: black;
+      color: #ffcc00;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
       text-align: center;
     }
     h1 {
-      color: #ffc107;
+      margin-bottom: 20px;
+      font-size: 2em;
     }
-    .movie-grid {
+    .movies {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
     }
-    .movie-card {
-      width: 160px;
-      background: #111;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px #ffc107;
+    .movie {
+      background: #222;
+      border: 2px solid #ffcc00;
+      border-radius: 12px;
+      width: 200px;
+      padding: 10px;
+      cursor: pointer;
       transition: transform 0.3s;
     }
-    .movie-card:hover {
+    .movie:hover {
       transform: scale(1.05);
+      background: #333;
     }
-    .movie-card img {
+    .movie img {
       width: 100%;
-      height: 240px;
+      height: 280px;
       object-fit: cover;
+      border-radius: 10px;
     }
     .movie-title {
-      padding: 10px;
-      font-size: 14px;
+      margin-top: 10px;
+      font-size: 1em;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-<h1>Transformers Movie Universe</h1>
+<h1>🤖 Transformers Movie Universe</h1>
 
-<div class="movie-grid">
-  <div class="movie-card">
-    <a href="player.html?video=https://spuc.haddixslone.sbs/v4/lf/lwesd/index-f1-a1.txt&title=Transformers (2007)">
-      <img src="https://upload.wikimedia.org/wikipedia/en/6/66/Transformers07.jpg">
-      <div class="movie-title">Transformers (2007)</div>
-    </a>
-  </div>
-  <div class="movie-card">
-    <a href="player.html?video=https://sdqm.gomesscheerer.sbs/v4/36/kzwtm/index-f1-v1-a1.txt&title=Revenge of the Fallen (2009)">
-      <img src="https://upload.wikimedia.org/wikipedia/en/9/94/Transformers_Revenge_of_the_Fallen_poster.jpg">
-      <div class="movie-title">Revenge of the Fallen (2009)</div>
-    </a>
-  </div>
-  <div class="movie-card">
-    <a href="player.html?video=https://sdqm.sipeskrlbtru.sbs:443/v4/js/ozh1g/index-f2-v1-a1.txt&title=Dark of the Moon (2011)">
-      <img src="https://upload.wikimedia.org/wikipedia/en/6/65/Transformers3darkofthemoon.jpg">
-      <div class="movie-title">Dark of the Moon (2011)</div>
-    </a>
-  </div>
-  <div class="movie-card">
-    <a href="player.html?video=https://skra.disalvozunigam.sbs:443/v4/us/l3hod/index-f2-v1-a1.txt&title=Age of Extinction (2014)">
-      <img src="https://upload.wikimedia.org/wikipedia/en/f/f7/Transformers_Age_of_Extinction_poster.jpg">
-      <div class="movie-title">Age of Extinction (2014)</div>
-    </a>
-  </div>
-  <div class="movie-card">
-    <a href="player.html?video=https://s3ae.myersbjhardi.sbs/v4/db/g8an9/cf-master.txt?v=1735250786&title=The Last Knight (2017)">
-      <img src="https://upload.wikimedia.org/wikipedia/en/f/f9/Transformers_The_Last_Knight_poster.jpg">
-      <div class="movie-title">The Last Knight (2017)</div>
-    </a>
-  </div>
-  <div class="movie-card">
-    <a href="player.html?video=https://sxic.killionorellanacoelho.sbs/v4/lf/cgzcn/cf-master.txt?v=1733275675&title=Bumblebee (2018)">
-      <img src="https://upload.wikimedia.org/wikipedia/en/4/4f/Bumblebee_%28film%29_poster.jpg">
-      <div class="movie-title">Bumblebee (2018)</div>
-    </a>
-  </div>
-  <div class="movie-card">
-    <a href="player.html?video=https://lightningbolts.ru/_v27/ByMQegcdBH0Re3g_LSQlJRF4EwMbD3AYHQwPEw.m3u8&title=Rise of the Beasts (2023)">
-      <img src="https://upload.wikimedia.org/wikipedia/en/9/9c/Transformers_Rise_of_the_Beasts_poster.jpg">
-      <div class="movie-title">Rise of the Beasts (2023)</div>
-    </a>
-  </div>
-  <div class="movie-card">
-    <a href="player.html?video=https://i5uy3mpk6z5u.cdn-centaurus.com/hls2/01/05205/8ufjgwgsea71_,l,n,h,x,.urlset/index-f4-v1-a1.m3u8&title=Transformers One (2024)">
-      <img src="https://upload.wikimedia.org/wikipedia/en/e/e3/Transformers_One_poster.jpg">
-      <div class="movie-title">Transformers One (2024)</div>
-    </a>
-  </div>
-</div>
+<div class="movies" id="movies"></div>
+
+<script>
+const movies = [
+  {
+    title: "Transformers (2007)",
+    video: "https://spuc.haddixslone.sbs/v4/lf/lwesd/index-f1-a1.txt",
+    subtitle: "",
+    image: "https://upload.wikimedia.org/wikipedia/en/6/66/Transformers07.jpg"
+  },
+  {
+    title: "Transformers: Revenge of the Fallen (2009)",
+    video: "https://sdqm.gomesscheerer.sbs/v4/36/kzwtm/index-f1-v1-a1.txt",
+    subtitle: "",
+    image: "https://upload.wikimedia.org/wikipedia/en/c/cb/Transformers_Revenge_of_the_Fallen_poster.jpg"
+  },
+  {
+    title: "Transformers: Dark of the Moon (2011)",
+    video: "https://sdqm.sipeskrlbtru.sbs:443/v4/js/ozh1g/index-f2-v1-a1.txt",
+    subtitle: "",
+    image: "https://upload.wikimedia.org/wikipedia/en/6/6f/Transformers3darkofthemoon.jpg"
+  },
+  {
+    title: "Transformers: Age of Extinction (2014)",
+    video: "https://skra.disalvozunigam.sbs:443/v4/us/l3hod/index-f2-v1-a1.txt",
+    subtitle: "",
+    image: "https://upload.wikimedia.org/wikipedia/en/6/67/Transformers_Age_of_Extinction_poster.jpg"
+  },
+  {
+    title: "Transformers: The Last Knight (2017)",
+    video: "https://s3ae.myersbjhardi.sbs/v4/db/g8an9/cf-master.txt?v=1735250786",
+    subtitle: "",
+    image: "https://upload.wikimedia.org/wikipedia/en/f/fb/Transformers_The_Last_Knight_poster.jpg"
+  },
+  {
+    title: "Bumblebee (2018)",
+    video: "https://sxic.killionorellanacoelho.sbs/v4/lf/cgzcn/cf-master.txt?v=1733275675",
+    subtitle: "",
+    image: "https://upload.wikimedia.org/wikipedia/en/5/5f/Bumblebee_%28film%29_poster.jpg"
+  },
+  {
+    title: "Transformers: Rise of the Beasts (2023)",
+    video: "https://lightningbolts.ru/_v27/ByMQegcdBH0Re3g_LSQlJRF4EwMbD3AYHQwPEw.m3u8?code=...&hash=...",
+    subtitle: "",
+    image: "https://upload.wikimedia.org/wikipedia/en/3/3d/Transformers_Rise_of_the_Beasts_poster.jpg"
+  },
+  {
+    title: "Transformers One (2024)",
+    video: "https://i5uy3mpk6z5u.cdn-centaurus.com:443/hls2/01/05205/8ufjgwgsea71_,l,n,h,x,.urlset/index-f4-v1-a1.m3u8?...",
+    subtitle: "",
+    image: "https://upload.wikimedia.org/wikipedia/en/2/22/Transformers_One_poster.jpg"
+  }
+];
+
+const container = document.getElementById('movies');
+movies.forEach((movie, index) => {
+  const div = document.createElement('div');
+  div.className = 'movie';
+  div.innerHTML = `
+    <img src="${movie.image}" alt="${movie.title}">
+    <div class="movie-title">${movie.title}</div>
+  `;
+  div.onclick = () => {
+    const url = `player_transformers.html?title=${encodeURIComponent(movie.title)}&video=${encodeURIComponent(movie.video)}&subtitle=${encodeURIComponent(movie.subtitle)}&index=${index}`;
+    window.location.href = url;
+  };
+  container.appendChild(div);
+});
+</script>
 
 </body>
 </html>
