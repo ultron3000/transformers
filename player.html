@@ -106,7 +106,7 @@ const spinner = document.getElementById('loading-spinner');
 const loadingText = document.getElementById('loading-text');
 const toggleCaptionsBtn = document.getElementById('toggle-captions');
 
-const saveKey = `continue-${title}`;
+const saveKey = \`continue-\${title}\`;
 
 const movies = [
   { title: "Transformers (2007)", video: "https://spuc.haddixslone.sbs/v4/lf/lwesd/index-f1-a1.txt" },
@@ -198,7 +198,7 @@ document.addEventListener('keydown', function(e) {
 videoPlayer.addEventListener('ended', () => {
   const nextMovie = movies[currentIndex + 1];
   if (nextMovie) {
-    const nextUrl = `player_transformers.html?title=${encodeURIComponent(nextMovie.title)}&video=${encodeURIComponent(nextMovie.video)}&index=${currentIndex + 1}`;
+    const nextUrl = \`player.html?title=\${encodeURIComponent(nextMovie.title)}&video=\${encodeURIComponent(nextMovie.video)}&index=\${currentIndex + 1}\`;
     window.location.href = nextUrl;
   } else {
     window.location.href = "index.html";
