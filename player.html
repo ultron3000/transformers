@@ -2,80 +2,208 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Player</title>
+  <title>Movie Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      margin: 0;
-      background-color: black;
-      color: white;
+      background: black;
+      color: #ffcc00;
       font-family: Arial, sans-serif;
       text-align: center;
+      margin: 0;
+      padding: 20px;
     }
     h1 {
-      font-size: 24px;
-      margin: 20px;
+      margin-bottom: 20px;
+      font-size: 2em;
     }
-    #player-container {
-      position: relative;
-      width: 100%;
-      height: 0;
-      padding-bottom: 56.25%;
+    video {
+      width: 90%;
+      max-width: 1000px;
+      border: 3px solid #ffcc00;
+      border-radius: 15px;
       background: #000;
     }
-    #video {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    #spinner {
-      position: absolute;
+    #loading-spinner {
+      display: none;
+      position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 24px;
-      color: #ffc107;
+      width: 60px;
+      height: 60px;
+      margin: -30px 0 0 -30px;
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #ffcc00;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      z-index: 999;
+    }
+    #loading-text {
+      display: none;
+      position: fixed;
+      top: 60%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .caption-button {
+      margin-top: 10px;
+      background: #ffcc00;
+      color: black;
+      border: none;
+      padding: 8px 16px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .caption-button:hover {
+      background: #e6b800;
+    }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #ffcc00;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.2em;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 
+<div id="loading-spinner"></div>
+<div id="loading-text">Loading movie...</div>
+
 <h1 id="movie-title">Loading...</h1>
 
-<div id="player-container">
-  <div id="spinner">Loading...</div>
-  <video id="video" controls autoplay></video>
-</div>
+<video id="video" controls autoplay crossorigin="anonymous"></video>
+
+<br>
+<button class="caption-button" id="toggle-captions">Toggle Subtitles</button>
+<br><br>
+
+<a href="index_transformers.html">← Back to Movies</a>
 
 <script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const title = urlParams.get('title');
-  const videoUrl = urlParams.get('video');
+const params = new URLSearchParams(window.location.search);
+const title = params.get('title');
+const videoUrl = params.get('video');
+const subtitleUrl = params.get('subtitle');
+const currentIndex = parseInt(params.get('index'), 10);
 
-  document.getElementById('movie-title').textContent = title;
+const movieTitle = document.getElementById('movie-title');
+const videoPlayer = document.getElementById('video');
+const spinner = document.getElementById('loading-spinner');
+const loadingText = document.getElementById('loading-text');
+const toggleCaptionsBtn = document.getElementById('toggle-captions');
 
-  const video = document.getElementById('video');
-  const spinner = document.getElementById('spinner');
+const saveKey = `continue-${title}`;
 
-  if (Hls.isSupported()) {
-    const hls = new Hls();
-    hls.loadSource(videoUrl);
-    hls.attachMedia(video);
-    hls.on(Hls.Events.MANIFEST_PARSED, function() {
-      spinner.style.display = 'none';
-      video.play();
-    });
-  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = videoUrl;
-    video.addEventListener('loadedmetadata', function() {
-      spinner.style.display = 'none';
-      video.play();
-    });
-  } else {
-    alert("Your browser does not support HLS streaming.");
+const movies = [
+  { title: "Transformers (2007)", video: "https://spuc.haddixslone.sbs/v4/lf/lwesd/index-f1-a1.txt" },
+  { title: "Transformers: Revenge of the Fallen (2009)", video: "https://sdqm.gomesscheerer.sbs/v4/36/kzwtm/index-f1-v1-a1.txt" },
+  { title: "Transformers: Dark of the Moon (2011)", video: "https://sdqm.sipeskrlbtru.sbs:443/v4/js/ozh1g/index-f2-v1-a1.txt" },
+  { title: "Transformers: Age of Extinction (2014)", video: "https://skra.disalvozunigam.sbs:443/v4/us/l3hod/index-f2-v1-a1.txt" },
+  { title: "Transformers: The Last Knight (2017)", video: "https://s3ae.myersbjhardi.sbs/v4/db/g8an9/cf-master.txt?v=1735250786" },
+  { title: "Bumblebee (2018)", video: "https://sxic.killionorellanacoelho.sbs/v4/lf/cgzcn/cf-master.txt?v=1733275675" },
+  { title: "Transformers: Rise of the Beasts (2023)", video: "https://lightningbolts.ru/_v27/ByMQegcdBH0Re3g_LSQlJRF4EwMbD3AYHQwPEw.m3u8?..." },
+  { title: "Transformers One (2024)", video: "https://i5uy3mpk6z5u.cdn-centaurus.com:443/hls2/01/05205/8ufjgwgsea71_,l,n,h,x,.urlset/index-f4-v1-a1.m3u8?..." }
+];
+
+function showSpinner() {
+  spinner.style.display = 'block';
+  loadingText.style.display = 'block';
+}
+function hideSpinner() {
+  spinner.style.display = 'none';
+  loadingText.style.display = 'none';
+}
+
+movieTitle.textContent = title;
+showSpinner();
+
+if (Hls.isSupported()) {
+  const hls = new Hls();
+  hls.loadSource(videoUrl);
+  hls.attachMedia(videoPlayer);
+  hls.on(Hls.Events.MANIFEST_PARSED, function() {
+    videoPlayer.play();
+    hideSpinner();
+    const lastTime = localStorage.getItem(saveKey);
+    if (lastTime) {
+      videoPlayer.currentTime = parseFloat(lastTime);
+    }
+  });
+} else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+  videoPlayer.src = videoUrl;
+  videoPlayer.addEventListener('loadedmetadata', () => {
+    videoPlayer.play();
+    hideSpinner();
+    const lastTime = localStorage.getItem(saveKey);
+    if (lastTime) {
+      videoPlayer.currentTime = parseFloat(lastTime);
+    }
+  });
+} else {
+  alert("Your browser doesn't support HLS!");
+  window.location.href = "index_transformers.html";
+}
+
+if (subtitleUrl) {
+  const track = document.createElement('track');
+  track.kind = 'subtitles';
+  track.label = 'English';
+  track.srclang = 'en';
+  track.src = subtitleUrl;
+  track.default = true;
+  videoPlayer.appendChild(track);
+}
+
+setInterval(() => {
+  if (!isNaN(videoPlayer.currentTime)) {
+    localStorage.setItem(saveKey, videoPlayer.currentTime);
   }
+}, 5000);
+
+window.addEventListener('beforeunload', () => {
+  if (!isNaN(videoPlayer.currentTime)) {
+    localStorage.setItem(saveKey, videoPlayer.currentTime);
+  }
+});
+
+toggleCaptionsBtn.addEventListener('click', () => {
+  for (const track of videoPlayer.textTracks) {
+    track.mode = track.mode === 'showing' ? 'hidden' : 'showing';
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.code === 'ArrowRight') videoPlayer.currentTime += 10;
+  else if (e.code === 'ArrowLeft') videoPlayer.currentTime -= 10;
+  else if (e.code === 'Space') {
+    e.preventDefault();
+    videoPlayer.paused ? videoPlayer.play() : videoPlayer.pause();
+  }
+});
+
+videoPlayer.addEventListener('ended', () => {
+  const nextMovie = movies[currentIndex + 1];
+  if (nextMovie) {
+    const nextUrl = `player_transformers.html?title=${encodeURIComponent(nextMovie.title)}&video=${encodeURIComponent(nextMovie.video)}&index=${currentIndex + 1}`;
+    window.location.href = nextUrl;
+  } else {
+    window.location.href = "index_transformers.html";
+  }
+});
 </script>
 
 </body>
