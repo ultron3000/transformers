@@ -1,78 +1,104 @@
+<!-- index.html for Transformers Universe -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Transformers Universe</title>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .movie-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .movie {
-            width: 200px;
-            cursor: pointer;
-        }
-        .movie img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .movie-title {
-            margin-top: 10px;
-            font-size: 16px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transformers Universe</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #ffc107;
+    }
+    .movie-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .movie-card {
+      width: 160px;
+      background: #111;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #ffc107;
+      transition: transform 0.3s;
+    }
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+    .movie-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+    .movie-title {
+      padding: 10px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Transformers Movie Universe</h1>
-    <div class="movie-grid">
-        <div class="movie" onclick="playMovie('1')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/6/66/Transformers07.jpg" alt="Transformers (2007)">
-            <div class="movie-title">Transformers (2007)</div>
-        </div>
-        <div class="movie" onclick="playMovie('2')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/9/94/Transformers Revenge of the Fallen poster.jpg" alt="Revenge of the Fallen (2009)">
-            <div class="movie-title">Revenge of the Fallen (2009)</div>
-        </div>
-        <div class="movie" onclick="playMovie('3')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/6/65/Transformers3darkofthemoon.jpg" alt="Dark of the Moon (2011)">
-            <div class="movie-title">Dark of the Moon (2011)</div>
-        </div>
-        <div class="movie" onclick="playMovie('4')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/f/f7/Transformers_Age_of_Extinction_poster.jpg" alt="Age of Extinction (2014)">
-            <div class="movie-title">Age of Extinction (2014)</div>
-        </div>
-        <div class="movie" onclick="playMovie('5')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/f/f9/Transformers_The_Last_Knight_poster.jpg" alt="The Last Knight (2017)">
-            <div class="movie-title">The Last Knight (2017)</div>
-        </div>
-        <div class="movie" onclick="playMovie('6')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/4/4f/Bumblebee_%28film%29_poster.jpg" alt="Bumblebee (2018)">
-            <div class="movie-title">Bumblebee (2018)</div>
-        </div>
-        <div class="movie" onclick="playMovie('7')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/9/9c/Transformers_Rise_of_the_Beasts_poster.jpg" alt="Rise of the Beasts (2023)">
-            <div class="movie-title">Rise of the Beasts (2023)</div>
-        </div>
-        <div class="movie" onclick="playMovie('8')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/e/e3/Transformers_One_poster.jpg" alt="Transformers One (2024)">
-            <div class="movie-title">Transformers One (2024)</div>
-        </div>
-    </div>
 
-    <script>
-        function playMovie(id) {
-            window.location.href = 'player.html?movie=' + id;
-        }
-    </script>
+<h1>Transformers Movie Universe</h1>
+
+<div class="movie-grid">
+  <div class="movie-card">
+    <a href="player.html?video=https://spuc.haddixslone.sbs/v4/lf/lwesd/index-f1-a1.txt&title=Transformers (2007)">
+      <img src="https://upload.wikimedia.org/wikipedia/en/6/66/Transformers07.jpg">
+      <div class="movie-title">Transformers (2007)</div>
+    </a>
+  </div>
+  <div class="movie-card">
+    <a href="player.html?video=https://sdqm.gomesscheerer.sbs/v4/36/kzwtm/index-f1-v1-a1.txt&title=Revenge of the Fallen (2009)">
+      <img src="https://upload.wikimedia.org/wikipedia/en/9/94/Transformers_Revenge_of_the_Fallen_poster.jpg">
+      <div class="movie-title">Revenge of the Fallen (2009)</div>
+    </a>
+  </div>
+  <div class="movie-card">
+    <a href="player.html?video=https://sdqm.sipeskrlbtru.sbs:443/v4/js/ozh1g/index-f2-v1-a1.txt&title=Dark of the Moon (2011)">
+      <img src="https://upload.wikimedia.org/wikipedia/en/6/65/Transformers3darkofthemoon.jpg">
+      <div class="movie-title">Dark of the Moon (2011)</div>
+    </a>
+  </div>
+  <div class="movie-card">
+    <a href="player.html?video=https://skra.disalvozunigam.sbs:443/v4/us/l3hod/index-f2-v1-a1.txt&title=Age of Extinction (2014)">
+      <img src="https://upload.wikimedia.org/wikipedia/en/f/f7/Transformers_Age_of_Extinction_poster.jpg">
+      <div class="movie-title">Age of Extinction (2014)</div>
+    </a>
+  </div>
+  <div class="movie-card">
+    <a href="player.html?video=https://s3ae.myersbjhardi.sbs/v4/db/g8an9/cf-master.txt?v=1735250786&title=The Last Knight (2017)">
+      <img src="https://upload.wikimedia.org/wikipedia/en/f/f9/Transformers_The_Last_Knight_poster.jpg">
+      <div class="movie-title">The Last Knight (2017)</div>
+    </a>
+  </div>
+  <div class="movie-card">
+    <a href="player.html?video=https://sxic.killionorellanacoelho.sbs/v4/lf/cgzcn/cf-master.txt?v=1733275675&title=Bumblebee (2018)">
+      <img src="https://upload.wikimedia.org/wikipedia/en/4/4f/Bumblebee_%28film%29_poster.jpg">
+      <div class="movie-title">Bumblebee (2018)</div>
+    </a>
+  </div>
+  <div class="movie-card">
+    <a href="player.html?video=https://lightningbolts.ru/_v27/ByMQegcdBH0Re3g_LSQlJRF4EwMbD3AYHQwPEw.m3u8&title=Rise of the Beasts (2023)">
+      <img src="https://upload.wikimedia.org/wikipedia/en/9/9c/Transformers_Rise_of_the_Beasts_poster.jpg">
+      <div class="movie-title">Rise of the Beasts (2023)</div>
+    </a>
+  </div>
+  <div class="movie-card">
+    <a href="player.html?video=https://i5uy3mpk6z5u.cdn-centaurus.com/hls2/01/05205/8ufjgwgsea71_,l,n,h,x,.urlset/index-f4-v1-a1.m3u8&title=Transformers One (2024)">
+      <img src="https://upload.wikimedia.org/wikipedia/en/e/e3/Transformers_One_poster.jpg">
+      <div class="movie-title">Transformers One (2024)</div>
+    </a>
+  </div>
+</div>
+
 </body>
 </html>
