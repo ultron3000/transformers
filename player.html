@@ -135,7 +135,9 @@ if (Hls.isSupported()) {
     hideSpinner();
     const message = document.createElement('div');
     message.innerHTML = `
-    
+    <p style="color: red; font-size: 1.2em;">🚫 Failed to load the video.</p>
+      <p style="color: #ccc;">The link might be blocked or expired.</p>
+      <a href="index.html">← Go back to movie list</a>
     `;
     document.body.appendChild(message);
   });
