@@ -96,28 +96,16 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 const title = params.get('title');
-const videoUrl = params.get('video');
-const subtitleUrl = params.get('subtitle');
+const videoUrl = decodeURIComponent(params.get('video') || "");
+const subtitleUrl = params.get('subtitle') || "";
 const currentIndex = parseInt(params.get('index'), 10);
 
-const movieTitle = document.getElementById('movie-title');
+document.getElementById('movie-title').textContent = title || "Movie Player";
+
 const videoPlayer = document.getElementById('video');
 const spinner = document.getElementById('loading-spinner');
 const loadingText = document.getElementById('loading-text');
-const toggleCaptionsBtn = document.getElementById('toggle-captions');
-
-const saveKey = \`continue-\${title}\`;
-
-const movies = [
-  { title: "Transformers (2007)", video: "https://spuc.haddixslone.sbs/v4/lf/lwesd/index-f1-a1.txt" },
-  { title: "Transformers: Revenge of the Fallen (2009)", video: "https://sdqm.gomesscheerer.sbs/v4/36/kzwtm/index-f1-v1-a1.txt" },
-  { title: "Transformers: Dark of the Moon (2011)", video: "https://sdqm.sipeskrlbtru.sbs:443/v4/js/ozh1g/index-f2-v1-a1.txt" },
-  { title: "Transformers: Age of Extinction (2014)", video: "https://skra.disalvozunigam.sbs:443/v4/us/l3hod/index-f2-v1-a1.txt" },
-  { title: "Transformers: The Last Knight (2017)", video: "https://s3ae.myersbjhardi.sbs/v4/db/g8an9/cf-master.txt?v=1735250786" },
-  { title: "Bumblebee (2018)", video: "https://sxic.killionorellanacoelho.sbs/v4/lf/cgzcn/cf-master.txt?v=1733275675" },
-  { title: "Transformers: Rise of the Beasts (2023)", video: "https://lightningbolts.ru/_v27/ByMQegcdBH0Re3g_LSQlJRF4EwMbD3AYHQwPEw.m3u8?..." },
-  { title: "Transformers One (2024)", video: "https://i5uy3mpk6z5u.cdn-centaurus.com:443/hls2/01/05205/8ufjgwgsea71_,l,n,h,x,.urlset/index-f4-v1-a1.m3u8?..." }
-];
+const saveKey = `continue-${title}`;
 
 function showSpinner() {
   spinner.style.display = 'block';
@@ -128,7 +116,6 @@ function hideSpinner() {
   loadingText.style.display = 'none';
 }
 
-movieTitle.textContent = title;
 showSpinner();
 
 if (Hls.isSupported()) {
@@ -142,6 +129,11 @@ if (Hls.isSupported()) {
     if (lastTime) {
       videoPlayer.currentTime = parseFloat(lastTime);
     }
+  });
+  hls.on(Hls.Events.ERROR, function (event, data) {
+    console.error("HLS error:", data);
+    alert("Failed to load video.");
+    window.location.href = "index.html";
   });
 } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
   videoPlayer.src = videoUrl;
@@ -180,7 +172,7 @@ window.addEventListener('beforeunload', () => {
   }
 });
 
-toggleCaptionsBtn.addEventListener('click', () => {
+document.getElementById('toggle-captions').addEventListener('click', () => {
   for (const track of videoPlayer.textTracks) {
     track.mode = track.mode === 'showing' ? 'hidden' : 'showing';
   }
@@ -196,13 +188,7 @@ document.addEventListener('keydown', function(e) {
 });
 
 videoPlayer.addEventListener('ended', () => {
-  const nextMovie = movies[currentIndex + 1];
-  if (nextMovie) {
-    const nextUrl = \`player.html?title=\${encodeURIComponent(nextMovie.title)}&video=\${encodeURIComponent(nextMovie.video)}&index=\${currentIndex + 1}\`;
-    window.location.href = nextUrl;
-  } else {
-    window.location.href = "index.html";
-  }
+  window.location.href = "index.html";
 });
 </script>
 
