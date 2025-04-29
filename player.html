@@ -131,9 +131,15 @@ if (Hls.isSupported()) {
     }
   });
   hls.on(Hls.Events.ERROR, function (event, data) {
-    console.error("HLS error:", data);
-    alert("Failed to load video.");
-    window.location.href = "index.html";
+    console.error("HLS.js error:", data);
+    hideSpinner();
+    const message = document.createElement('div');
+    message.innerHTML = `
+      <p style="color: red; font-size: 1.2em;">🚫 Failed to load the video.</p>
+      <p style="color: #ccc;">The link might be blocked or expired.</p>
+      <a href="index.html">← Go back to movie list</a>
+    `;
+    document.body.appendChild(message);
   });
 } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
   videoPlayer.src = videoUrl;
