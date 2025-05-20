@@ -57,9 +57,6 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    .caption-button:hover {
-      background: #e6b800;
-    }
     a {
       display: inline-block;
       margin-top: 20px;
@@ -67,9 +64,6 @@
       font-weight: bold;
       text-decoration: none;
       font-size: 1.2em;
-    }
-    a:hover {
-      text-decoration: underline;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
@@ -96,66 +90,66 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 const title = params.get('title');
-const videoUrl = decodeURIComponent(params.get('video') || "");
-const subtitleUrl = params.get('subtitle') || "";
-const currentIndex = parseInt(params.get('index'), 10);
+const videoUrl = params.get('video');
+const subtitleUrl = params.get('subtitle');
+const index = parseInt(params.get('index'), 10);
 
-document.getElementById('movie-title').textContent = title || "Movie Player";
-
-const videoPlayer = document.getElementById('video');
+const movieTitle = document.getElementById('movie-title');
+const video = document.getElementById('video');
 const spinner = document.getElementById('loading-spinner');
 const loadingText = document.getElementById('loading-text');
+const toggleBtn = document.getElementById('toggle-captions');
 const saveKey = `continue-${title}`;
 
-function showSpinner() {
-  spinner.style.display = 'block';
-  loadingText.style.display = 'block';
-}
-function hideSpinner() {
-  spinner.style.display = 'none';
-  loadingText.style.display = 'none';
-}
-
+movieTitle.textContent = title;
 showSpinner();
 
-if (Hls.isSupported()) {
-  const hls = new Hls();
-  hls.loadSource(videoUrl);
-  hls.attachMedia(videoPlayer);
-  hls.on(Hls.Events.MANIFEST_PARSED, function() {
-    videoPlayer.play();
-    hideSpinner();
-    const lastTime = localStorage.getItem(saveKey);
-    if (lastTime) {
-      videoPlayer.currentTime = parseFloat(lastTime);
-    }
-  });
-  hls.on(Hls.Events.ERROR, function (event, data) {
-    console.error("HLS.js error:", data);
-    hideSpinner();
-    const message = document.createElement('div');
-    message.innerHTML = `
-    <p style="color: red; font-size: 1.2em;">🚫 Failed to load the video.</p>
-      <p style="color: #ccc;">The link might be blocked or expired.</p>
-      <a href="index.html">← Go back to movie list</a>
-    `;
-    document.body.appendChild(message);
-  });
-} else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-  videoPlayer.src = videoUrl;
-  videoPlayer.addEventListener('loadedmetadata', () => {
-    videoPlayer.play();
-    hideSpinner();
-    const lastTime = localStorage.getItem(saveKey);
-    if (lastTime) {
-      videoPlayer.currentTime = parseFloat(lastTime);
-    }
-  });
-} else {
-  alert("Your browser doesn't support HLS!");
-  window.location.href = "index.html";
+function showSpinner() {
+  spinner.style.display = "block";
+  loadingText.style.display = "block";
 }
 
+function hideSpinner() {
+  spinner.style.display = "none";
+  loadingText.style.display = "none";
+}
+
+function playVideo(url) {
+  if (Hls.isSupported()) {
+    const hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      video.play();
+      hideSpinner();
+      const lastTime = localStorage.getItem(saveKey);
+      if (lastTime) video.currentTime = parseFloat(lastTime);
+    });
+    hls.on(Hls.Events.ERROR, function (event, data) {
+      if (data.fatal) {
+        alert("A fatal playback error occurred: " + data.details);
+      } else {
+        console.warn("Non-fatal HLS error:", data.details);
+        // Don't alert the user
+      }
+    });
+  } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    video.src = url;
+    video.addEventListener("loadedmetadata", () => {
+      video.play();
+      hideSpinner();
+      const lastTime = localStorage.getItem(saveKey);
+      if (lastTime) video.currentTime = parseFloat(lastTime);
+    });
+  } else {
+    alert("Your browser doesn't support HLS!");
+    window.location.href = "index.html";
+  }
+}
+
+playVideo(videoUrl);
+
+// Load subtitle if provided
 if (subtitleUrl) {
   const track = document.createElement('track');
   track.kind = 'subtitles';
@@ -163,38 +157,38 @@ if (subtitleUrl) {
   track.srclang = 'en';
   track.src = subtitleUrl;
   track.default = true;
-  videoPlayer.appendChild(track);
+  video.appendChild(track);
 }
 
+// Save progress every 5 seconds
 setInterval(() => {
-  if (!isNaN(videoPlayer.currentTime)) {
-    localStorage.setItem(saveKey, videoPlayer.currentTime);
+  if (!isNaN(video.currentTime)) {
+    localStorage.setItem(saveKey, video.currentTime);
   }
 }, 5000);
 
-window.addEventListener('beforeunload', () => {
-  if (!isNaN(videoPlayer.currentTime)) {
-    localStorage.setItem(saveKey, videoPlayer.currentTime);
+// Save progress on exit
+window.addEventListener("beforeunload", () => {
+  if (!isNaN(video.currentTime)) {
+    localStorage.setItem(saveKey, video.currentTime);
   }
 });
 
-document.getElementById('toggle-captions').addEventListener('click', () => {
-  for (const track of videoPlayer.textTracks) {
-    track.mode = track.mode === 'showing' ? 'hidden' : 'showing';
+// Toggle subtitles
+toggleBtn.addEventListener("click", () => {
+  for (const track of video.textTracks) {
+    track.mode = track.mode === "showing" ? "hidden" : "showing";
   }
 });
 
-document.addEventListener('keydown', function(e) {
-  if (e.code === 'ArrowRight') videoPlayer.currentTime += 10;
-  else if (e.code === 'ArrowLeft') videoPlayer.currentTime -= 10;
-  else if (e.code === 'Space') {
+// Keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+  if (e.code === "ArrowRight") video.currentTime += 10;
+  else if (e.code === "ArrowLeft") video.currentTime -= 10;
+  else if (e.code === "Space") {
     e.preventDefault();
-    videoPlayer.paused ? videoPlayer.play() : videoPlayer.pause();
+    video.paused ? video.play() : video.pause();
   }
-});
-
-videoPlayer.addEventListener('ended', () => {
-  window.location.href = "index.html";
 });
 </script>
 
