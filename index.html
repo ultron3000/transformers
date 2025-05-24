@@ -2,119 +2,406 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Transformers</title>
+  <title>Transformers Cinematic Universe</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap');
+    
+    :root {
+      --primary: #ffcc00;
+      --secondary: #e63c24;
+      --dark: #0a0a0a;
+      --darker: #050505;
+      --light: #f8f8f8;
+    }
+    
     body {
-      background: black;
-      color: #ffcc00;
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+      color: var(--light);
       margin: 0;
-      padding: 20px;
-      text-align: center;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    h1 {
-      margin-bottom: 20px;
-      font-size: 2em;
+    
+    .font-orbitron {
+      font-family: 'Orbitron', sans-serif;
     }
-    .movies {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
+    
+    .movie-card {
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transform-style: preserve-3d;
+      perspective: 1000px;
     }
-    .movie {
-      background: #222;
-      border: 2px solid #ffcc00;
-      border-radius: 12px;
-      width: 200px;
-      padding: 10px;
-      cursor: pointer;
-      transition: transform 0.3s;
+    
+    .movie-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(230, 60, 36, 0.3);
     }
-    .movie:hover {
+    
+    .movie-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.8));
+      border-radius: 0.75rem;
+      z-index: 1;
+    }
+    
+    .movie-poster {
+      transition: all 0.5s ease;
+    }
+    
+    .movie-card:hover .movie-poster {
       transform: scale(1.05);
-      background: #333;
     }
-    .movie img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
+    
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    .search-box {
+      transition: all 0.3s ease;
+      box-shadow: 0 0 0 0 rgba(255, 204, 0, 0);
+    }
+    
+    .search-box:focus {
+      box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.3);
+    }
+    
+    .year-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 2;
+    }
+    
+    .loading-spinner {
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .glow-text {
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+    }
+    
+    .glow-box {
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+    }
+    
+    .transformers-logo {
+      filter: drop-shadow(0 0 10px rgba(255, 204, 0, 0.7));
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 204, 0, 0.1);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
       border-radius: 10px;
     }
-    .movie-title {
-      margin-top: 10px;
-      font-size: 1em;
-      font-weight: bold;
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ffd633;
     }
-  
-    @media (max-width: 600px) {
-      .movies {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-      }
-      .movie {
+    
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+      .movie-card {
         width: 100%;
-        box-sizing: border-box;
       }
-      .movie img {
-        height: auto;
+      
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
       }
     }
-
   </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
+  <!-- Header Section -->
+  <header class="bg-gradient-to-r from-black to-gray-900 py-6 px-4 md:px-8 border-b border-yellow-600/30">
+    <div class="container mx-auto">
+      <div class="header-content flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Transformers_logo.svg/1200px-Transformers_logo.svg.png" 
+               alt="Transformers Logo" 
+               class="transformers-logo h-12 md:h-16">
+          <h1 class="font-orbitron text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 glow-text">
+            CINEMATIC UNIVERSE
+          </h1>
+        </div>
+        
+        <div class="relative w-full md:w-96">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <i class="fas fa-search text-yellow-500"></i>
+          </div>
+          <input id="searchBar" 
+                 type="text" 
+                 class="search-box w-full pl-10 pr-4 py-2 rounded-lg bg-gray-800 border border-yellow-500/50 focus:border-yellow-500 text-white placeholder-yellow-500/70 focus:outline-none transition-all"
+                 placeholder="Search Transformers movies...">
+        </div>
+      </div>
+    </div>
+  </header>
 
-<h1>🚨 Transformers Cinematic Universe</h1>
-<input id="searchBar" placeholder="Search Transformers movies..." style="width: calc(100% - 40px);max-width: 100%;margin: 20px auto;padding: 10px 15px;font-size: 1em;border-radius: 8px;border: 2px solid #ffcc00;background: #111;color: #ffcc00;box-shadow: 0 0 10px #ffcc00a0;display: block;" type="text"/>
-<div class="movies" id="movies"></div>
-<script>
-const movies = [
-  { title: "Transformers (2007)", video: "https://spuc.haddixslone.sbs/v4/lf/lwesd/index-f1-a1.txt", image: "https://upload.wikimedia.org/wikipedia/en/6/66/Transformers07.jpg" },
-  { title: "Transformers: Revenge of the Fallen (2009)", video: "https://sdqm.gomesscheerer.sbs/v4/36/kzwtm/index-f1-v1-a1.txt", image: "https://i.pinimg.com/736x/71/fe/1f/71fe1f9a3dad689e69e9d73ef1da3f5d.jpg" },
-  { title: "Transformers: Dark of the Moon (2011)", video: "https://sdqm.sipeskrlbtru.sbs:443/v4/js/ozh1g/index-f2-v1-a1.txt", image: "https://preview.redd.it/what-is-the-one-thing-you-would-change-from-transformers-v0-yt164ne88hjb1.jpg?width=640&crop=smart&auto=webp&s=219bdadc4e14813f9c4f55f888db6eb49260c40b" },
-  { title: "Transformers: Age of Extinction (2014)", video: "https://skra.disalvozunigam.sbs:443/v4/us/l3hod/index-f2-v1-a1.txt", image: "https://www.scannain.com/media/transformers-age-of-extinction_imax-poster.jpg" },
-  { title: "Transformers: The Last Knight (2017)", video: "https://s3ae.myersbjhardi.sbs/v4/db/g8an9/cf-master.txt?v=1735250786", image: "https://lh5.googleusercontent.com/proxy/MOBO_F9kF1hKXwgTRaHET0NEdNBEDlXCJ31jbchVTDQYY_Y15u61JGnQQq53oL1EjVjWQUZWF1LhimX1qtLfWzTL7DLJCBYBFdL10DB_A6Xmzip3VaE7_RMpP0bGVWOdnpfqGUcOjRbh-K_eu0HkIn_HQNjVZwAJSBo" },
-  { title: "Bumblebee (2018)", video: "https://sxic.killionorellanacoelho.sbs/v4/lf/cgzcn/cf-master.txt?v=1733275675", image: "https://w0.peakpx.com/wallpaper/244/56/HD-wallpaper-bumblebee-movie-transformers.jpg" },
-  { title: "Transformers: Rise of the Beasts (2023)", video: "https://sipt.thurberdvob.sbs:443/v4/ho/xsl8o/index-f2-v1-a1.txt", image: "https://images.squarespace-cdn.com/content/v1/521dec4de4b0912f523f3b56/1706737525171-93MAOV803L21A8BQ5AOZ/transformers-7-poster.jpg?format=2500w" },
-  { title: "Transformers One (2024)", video: "https://vwyn3lxe5fv5.cdn-centaurus.com:443/hls2/01/05205/8ufjgwgsea71_,l,n,h,x,.urlset/index-f4-v1-a1.m3u8?t=J82aEaz9qxW0-F7lwD53GQWOo9nBKNdDTPhpsR0p1Ns&s=1747712652&e=129600&f=26027071&srv=3FjgDmcnea8S35m&i=0.4&sp=500&p1=3FjgDmcnea8S35m&p2=3FjgDmcnea8S35m&asn=24554", image: "https://m.media-amazon.com/images/M/MV5BZTJmMDA2MmEtODMxNS00ZjhhLTlkNWMtN2NkODI4ODU5ZWYzXkEyXkFqcGc@._V1_.jpg" },
-  ];
+  <!-- Main Content -->
+  <main class="flex-grow container mx-auto px-4 py-8">
+    <!-- Stats Bar -->
+    <div class="stats-bar mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-gray-900/50 border border-yellow-500/20 rounded-lg p-4 glow-box">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-yellow-500">Total Movies</p>
+            <p class="text-2xl font-bold text-white">8</p>
+          </div>
+          <i class="fas fa-film text-yellow-500 text-xl"></i>
+        </div>
+      </div>
+      <div class="bg-gray-900/50 border border-yellow-500/20 rounded-lg p-4 glow-box">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-yellow-500">Years Active</p>
+            <p class="text-2xl font-bold text-white">2007-2024</p>
+          </div>
+          <i class="fas fa-calendar-alt text-yellow-500 text-xl"></i>
+        </div>
+      </div>
+      <div class="bg-gray-900/50 border border-yellow-500/20 rounded-lg p-4 glow-box">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-yellow-500">Latest Release</p>
+            <p class="text-2xl font-bold text-white">Transformers One</p>
+          </div>
+          <i class="fas fa-star text-yellow-500 text-xl"></i>
+        </div>
+      </div>
+      <div class="bg-gray-900/50 border border-yellow-500/20 rounded-lg p-4 glow-box">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm text-yellow-500">Total Runtime</p>
+            <p class="text-2xl font-bold text-white">~18h 30m</p>
+          </div>
+          <i class="fas fa-clock text-yellow-500 text-xl"></i>
+        </div>
+      </div>
+    </div>
 
-const container = document.getElementById('movies');
-movies.forEach((movie, index) => {
-  const div = document.createElement('div');
-  div.className = 'movie';
-  div.innerHTML = `
-    <img src="${movie.image}" alt="${movie.title}">
-    <div class="movie-title">${movie.title}</div>
-  `;
-  div.onclick = () => {
-    const url = `player.html?title=${encodeURIComponent(movie.title)}&video=${encodeURIComponent(movie.video)}&index=${index}`;
-    window.location.href = url;
-  };
-  container.appendChild(div);
-});
+    <!-- Movies Grid -->
+    <div class="mb-8">
+      <h2 class="font-orbitron text-xl md:text-2xl font-bold text-yellow-400 mb-4 flex items-center gap-2">
+        <i class="fas fa-robot"></i> The Complete Collection
+      </h2>
+      
+      <div id="loading" class="flex justify-center items-center py-12">
+        <div class="loading-spinner h-12 w-12 border-4 border-yellow-500 border-t-transparent rounded-full"></div>
+      </div>
+      
+      <div id="movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+      
+      <div id="noResults" class="hidden text-center py-12">
+        <i class="fas fa-robot text-6xl text-yellow-500 mb-4"></i>
+        <h3 class="text-2xl font-bold text-white">No Transformers Found</h3>
+        <p class="text-gray-400 mt-2">Try a different search term</p>
+      </div>
+    </div>
+  </main>
 
-// Live Search Filter
+  <!-- Footer -->
+  <footer class="bg-gray-900/80 border-t border-yellow-500/20 py-6 px-4">
+    <div class="container mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <p class="text-yellow-500 font-medium">© 2024 Transformers Cinematic Universe</p>
+          <p class="text-gray-400 text-sm">Not affiliated with Hasbro or Paramount</p>
+        </div>
+        <div class="flex gap-4">
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">
+            <i class="fab fa-imdb text-2xl"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">
+            <i class="fab fa-wikipedia-w text-2xl"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">
+            <i class="fas fa-film text-2xl"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-document.getElementById('searchBar').addEventListener('input', function () {
+  <script>
+    const movies = [
+      { 
+        title: "Transformers", 
+        year: 2007,
+        video: "https://spuc.haddixslone.sbs/v4/lf/lwesd/index-f1-a1.txt", 
+        image: "https://upload.wikimedia.org/wikipedia/en/6/66/Transformers07.jpg",
+        runtime: "144 min",
+        rating: "7.0/10"
+      },
+      { 
+        title: "Transformers: Revenge of the Fallen", 
+        year: 2009,
+        video: "https://sdqm.gomesscheerer.sbs/v4/36/kzwtm/index-f1-v1-a1.txt", 
+        image: "https://i.pinimg.com/736x/71/fe/1f/71fe1f9a3dad689e69e9d73ef1da3f5d.jpg",
+        runtime: "150 min",
+        rating: "5.9/10"
+      },
+      { 
+        title: "Transformers: Dark of the Moon", 
+        year: 2011,
+        video: "https://sdqm.sipeskrlbtru.sbs:443/v4/js/ozh1g/index-f2-v1-a1.txt", 
+        image: "https://preview.redd.it/what-is-the-one-thing-you-would-change-from-transformers-v0-yt164ne88hjb1.jpg?width=640&crop=smart&auto=webp&s=219bdadc4e14813f9c4f55f888db6eb49260c40b",
+        runtime: "154 min",
+        rating: "6.2/10"
+      },
+      { 
+        title: "Transformers: Age of Extinction", 
+        year: 2014,
+        video: "https://skra.disalvozunigam.sbs:443/v4/us/l3hod/index-f2-v1-a1.txt", 
+        image: "https://www.scannain.com/media/transformers-age-of-extinction_imax-poster.jpg",
+        runtime: "165 min",
+        rating: "5.6/10"
+      },
+      { 
+        title: "Transformers: The Last Knight", 
+        year: 2017,
+        video: "https://s3ae.myersbjhardi.sbs/v4/db/g8an9/cf-master.txt?v=1735250786", 
+        image: "https://lh5.googleusercontent.com/proxy/MOBO_F9kF1hKXwgTRaHET0NEdNBEDlXCJ31jbchVTDQYY_Y15u61JGnQQq53oL1EjVjWQUZWF1LhimX1qtLfWzTL7DLJCBYBFdL10DB_A6Xmzip3VaE7_RMpP0bGVWOdnpfqGUcOjRbh-K_eu0HkIn_HQNjVZwAJSBo",
+        runtime: "154 min",
+        rating: "5.2/10"
+      },
+      { 
+        title: "Bumblebee", 
+        year: 2018,
+        video: "https://sxic.killionorellanacoelho.sbs/v4/lf/cgzcn/cf-master.txt?v=1733275675", 
+        image: "https://w0.peakpx.com/wallpaper/244/56/HD-wallpaper-bumblebee-movie-transformers.jpg",
+        runtime: "114 min",
+        rating: "6.7/10"
+      },
+      { 
+        title: "Transformers: Rise of the Beasts", 
+        year: 2023,
+        video: "https://sipt.thurberdvob.sbs:443/v4/ho/xsl8o/index-f2-v1-a1.txt", 
+        image: "https://images.squarespace-cdn.com/content/v1/521dec4de4b0912f523f3b56/1706737525171-93MAOV803L21A8BQ5AOZ/transformers-7-poster.jpg?format=2500w",
+        runtime: "127 min",
+        rating: "6.1/10"
+      },
+      { 
+        title: "Transformers One", 
+        year: 2024,
+        video: "https://vwyn3lxe5fv5.cdn-centaurus.com:443/hls2/01/05205/8ufjgwgsea71_,l,n,h,x,.urlset/index-f4-v1-a1.m3u8?t=J82aEaz9qxW0-F7lwD53GQWOo9nBKNdDTPhpsR0p1Ns&s=1747712652&e=129600&f=26027071&srv=3FjgDmcnea8S35m&i=0.4&sp=500&p1=3FjgDmcnea8S35m&p2=3FjgDmcnea8S35m&asn=24554", 
+        image: "https://m.media-amazon.com/images/M/MV5BZTJmMDA2MmEtODMxNS00ZjhhLTlkNWMtN2NkODI4ODU5ZWYzXkEyXkFqcGc@._V1_.jpg",
+        runtime: "104 min",
+        rating: "TBD"
+      },
+    ];
 
-  const searchTerm = this.value.toLowerCase();
+    // Sort movies by year (newest first)
+    movies.sort((a, b) => b.year - a.year);
 
-  const movieDivs = document.querySelectorAll('.movie');
+    const container = document.getElementById('movies');
+    const loadingElement = document.getElementById('loading');
+    const noResultsElement = document.getElementById('noResults');
+    const searchBar = document.getElementById('searchBar');
 
-  movieDivs.forEach(div => {
+    // Simulate loading
+    setTimeout(() => {
+      loadingElement.classList.add('hidden');
+      renderMovies(movies);
+    }, 800);
 
-    const title = div.querySelector('.movie-title').textContent.toLowerCase();
+    function renderMovies(moviesToRender) {
+      container.innerHTML = '';
+      
+      if (moviesToRender.length === 0) {
+        noResultsElement.classList.remove('hidden');
+        return;
+      } else {
+        noResultsElement.classList.add('hidden');
+      }
+      
+      moviesToRender.forEach((movie, index) => {
+        const div = document.createElement('div');
+        div.className = 'movie-card relative rounded-xl overflow-hidden fade-in';
+        div.innerHTML = `
+          <div class="year-badge bg-yellow-500 text-black font-bold text-xs px-2 py-1 rounded-full">
+            ${movie.year}
+          </div>
+          <img src="${movie.image}" 
+               alt="${movie.title}" 
+               class="movie-poster w-full h-80 object-cover rounded-lg">
+          <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
+            <h3 class="text-white font-bold text-lg truncate">${movie.title}</h3>
+            <div class="flex justify-between items-center mt-2 text-sm">
+              <span class="text-yellow-400"><i class="fas fa-clock mr-1"></i> ${movie.runtime}</span>
+              <span class="text-yellow-400"><i class="fas fa-star mr-1"></i> ${movie.rating}</span>
+            </div>
+            <button class="mt-3 w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+              <i class="fas fa-play"></i> Watch Now
+            </button>
+          </div>
+        `;
+        
+        div.addEventListener('click', () => {
+          const url = `player.html?title=${encodeURIComponent(movie.title)}&video=${encodeURIComponent(movie.video)}&index=${index}`;
+          window.location.href = url;
+        });
+        
+        container.appendChild(div);
+      });
+    }
 
-    div.style.display = title.includes(searchTerm) ? 'block' : 'none';
+    // Live Search Filter
+    searchBar.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      const filteredMovies = movies.filter(movie => 
+        movie.title.toLowerCase().includes(searchTerm) || 
+        movie.year.toString().includes(searchTerm)
+      );
+      
+      renderMovies(filteredMovies);
+    });
 
-  });
-
-});  
-</script>
-
+    // Add keyboard shortcut for search (Ctrl/Cmd + K)
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        searchBar.focus();
+      }
+    });
+  </script>
 </body>
 </html>
