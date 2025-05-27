@@ -2,406 +2,428 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Transformers Cinematic Universe</title>
+  <title>Transformers - All Movies</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap');
-    
-    :root {
-      --primary: #ffcc00;
-      --secondary: #e63c24;
-      --dark: #0a0a0a;
-      --darker: #050505;
-      --light: #f8f8f8;
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ffcc00;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ffdd33;
     }
     
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
-      color: var(--light);
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      overflow-x: hidden;
+    /* Custom animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
-    .font-orbitron {
-      font-family: 'Orbitron', sans-serif;
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
     }
     
-    .movie-card {
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      transform-style: preserve-3d;
-      perspective: 1000px;
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    
+    /* Glow effect */
+    .glow-effect {
+      position: relative;
     }
     
-    .movie-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 10px 25px rgba(230, 60, 36, 0.3);
-    }
-    
-    .movie-card::before {
+    .glow-effect::after {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.8));
-      border-radius: 0.75rem;
-      z-index: 1;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0);
+      transition: box-shadow 0.3s ease;
+      pointer-events: none;
     }
     
-    .movie-poster {
-      transition: all 0.5s ease;
+    .glow-effect:hover::after {
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
     }
     
-    .movie-card:hover .movie-poster {
-      transform: scale(1.05);
-    }
-    
-    .scrollbar-hide::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .scrollbar-hide {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    
-    .search-box {
-      transition: all 0.3s ease;
-      box-shadow: 0 0 0 0 rgba(255, 204, 0, 0);
-    }
-    
-    .search-box:focus {
-      box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.3);
-    }
-    
-    .year-badge {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      z-index: 2;
-    }
-    
-    .loading-spinner {
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    
-    .fade-in {
-      animation: fadeIn 0.5s ease-in;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .glow-text {
-      text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
-    }
-    
-    .glow-box {
-      box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
-    }
-    
-    .transformers-logo {
-      filter: drop-shadow(0 0 10px rgba(255, 204, 0, 0.7));
-    }
-    
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: rgba(255, 204, 0, 0.1);
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 10px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: #ffd633;
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(90deg, #ffcc00, #ff9900);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
     
     /* Responsive adjustments */
     @media (max-width: 640px) {
       .movie-card {
-        width: 100%;
+        width: calc(50% - 1rem);
       }
-      
-      .header-content {
-        flex-direction: column;
-        gap: 1rem;
+    }
+    
+    @media (max-width: 400px) {
+      .movie-card {
+        width: 100%;
       }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
-  <!-- Header Section -->
-  <header class="bg-gradient-to-r from-black to-gray-900 py-6 px-4 md:px-8 border-b border-yellow-600/30">
-    <div class="container mx-auto">
-      <div class="header-content flex flex-col md:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <img src="https://ih1.redbubble.net/image.5238308144.5279/fposter,small,wall_texture,product,750x1000.jpg" 
-               alt="Transformers Logo" 
-               class="transformers-logo h-12 md:h-16">
-          <h1 class="font-orbitron text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600 glow-text">
-            CINEMATIC UNIVERSE
-          </h1>
+<body class="bg-black text-gray-100 min-h-screen">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-black bg-opacity-90 backdrop-blur-sm border-b border-yellow-600/20">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
+          <i class="fas fa-robot text-black text-xl"></i>
         </div>
-        
-        <div class="relative w-full md:w-96">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <i class="fas fa-search text-yellow-500"></i>
-          </div>
-          <input id="searchBar" 
-                 type="text" 
-                 class="search-box w-full pl-10 pr-4 py-2 rounded-lg bg-gray-800 border border-yellow-500/50 focus:border-yellow-500 text-white placeholder-yellow-500/70 focus:outline-none transition-all"
-                 placeholder="Search Transformers movies...">
-        </div>
+        <h1 class="text-2xl font-bold gradient-text">TRANSFORMERS</h1>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-800 transition">
+          <i class="fas fa-moon text-yellow-500"></i>
+        </button>
+        <button id="search-btn" class="p-2 rounded-full hover:bg-gray-800 transition">
+          <i class="fas fa-search text-yellow-500"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Search Bar (hidden by default) -->
+    <div id="search-bar" class="hidden px-4 pb-4">
+      <div class="relative">
+        <input type="text" placeholder="Search movies..." 
+               class="w-full bg-gray-900 border border-yellow-600/30 rounded-full py-2 px-4 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+        <i class="fas fa-search absolute left-3 top-3 text-yellow-500"></i>
       </div>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="flex-grow container mx-auto px-4 py-8">
-    <!-- Stats Bar -->
-    <div class="stats-bar mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="bg-gray-900/50 border border-yellow-500/20 rounded-lg p-4 glow-box">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-yellow-500">Total Movies</p>
-            <p class="text-2xl font-bold text-white">8</p>
-          </div>
-          <i class="fas fa-film text-yellow-500 text-xl"></i>
+  <main class="container mx-auto px-4 py-8">
+    <!-- Hero Section -->
+    <section class="mb-12 relative overflow-hidden rounded-xl">
+      <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10"></div>
+      <img src="https://m.media-amazon.com/images/M/MV5BN2YwOWM4ODgtZTMzMi00ZmFmLTk5NTEtNmY4ZDcxZjQzZTYxXkEyXkFqcGdeQXVyNTI5NjIyMw@@._V1_.jpg" 
+           alt="Transformers Banner" class="w-full h-64 md:h-96 object-cover">
+      <div class="absolute bottom-0 left-0 z-20 p-6 md:p-8">
+        <h2 class="text-3xl md:text-5xl font-bold mb-2 gradient-text">All Movies</h2>
+        <p class="text-gray-300 mb-4 max-w-lg">The complete collection of the Transformers live-action films. More than meets the eye.</p>
+        <div class="flex space-x-3">
+          <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-play mr-2"></i> Play All
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-info-circle mr-2"></i> Details
+          </button>
         </div>
       </div>
-      <div class="bg-gray-900/50 border border-yellow-500/20 rounded-lg p-4 glow-box">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-yellow-500">Years Active</p>
-            <p class="text-2xl font-bold text-white">2007-2024</p>
-          </div>
-          <i class="fas fa-calendar-alt text-yellow-500 text-xl"></i>
-        </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="flex flex-wrap items-center justify-between mb-8 gap-4">
+      <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
+        <button class="filter-btn active bg-yellow-600 text-black px-4 py-1 rounded-full text-sm font-medium">All</button>
+        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Action</button>
+        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Sci-Fi</button>
+        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Adventure</button>
+        <button class="filter-btn bg-gray-800 hover:bg-gray-700 px-4 py-1 rounded-full text-sm font-medium">Robots</button>
       </div>
-      <div class="bg-gray-900/50 border border-yellow-500/20 rounded-lg p-4 glow-box">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-yellow-500">Latest Release</p>
-            <p class="text-2xl font-bold text-white">Transformers One</p>
-          </div>
-          <i class="fas fa-star text-yellow-500 text-xl"></i>
-        </div>
-      </div>
-      <div class="bg-gray-900/50 border border-yellow-500/20 rounded-lg p-4 glow-box">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-yellow-500">Total Runtime</p>
-            <p class="text-2xl font-bold text-white">~18h 30m</p>
-          </div>
-          <i class="fas fa-clock text-yellow-500 text-xl"></i>
-        </div>
+      
+      <div class="flex items-center space-x-2">
+        <span class="text-gray-400 text-sm">Sort by:</span>
+        <select class="bg-gray-900 border border-gray-700 text-white text-sm rounded-full px-3 py-1 focus:outline-none focus:ring-1 focus:ring-yellow-500">
+          <option>Release Date</option>
+          <option>Chronological Order</option>
+          <option>Popularity</option>
+        </select>
       </div>
     </div>
 
     <!-- Movies Grid -->
-    <div class="mb-8">
-      <h2 class="font-orbitron text-xl md:text-2xl font-bold text-yellow-400 mb-4 flex items-center gap-2">
-        <i class="fas fa-robot"></i> The Complete Collection
-      </h2>
+    <section>
+      <h3 class="text-xl font-semibold mb-6 flex items-center">
+        <i class="fas fa-film text-yellow-500 mr-2"></i>
+        Movies
+      </h3>
       
-      <div id="loading" class="flex justify-center items-center py-12">
-        <div class="loading-spinner h-12 w-12 border-4 border-yellow-500 border-t-transparent rounded-full"></div>
+      <div id="movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <!-- Movie cards will be inserted here by JavaScript -->
       </div>
-      
-      <div id="movies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
-      
-      <div id="noResults" class="hidden text-center py-12">
-        <i class="fas fa-robot text-6xl text-yellow-500 mb-4"></i>
-        <h3 class="text-2xl font-bold text-white">No Transformers Found</h3>
-        <p class="text-gray-400 mt-2">Try a different search term</p>
-      </div>
-    </div>
+    </section>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-900/80 border-t border-yellow-500/20 py-6 px-4">
-    <div class="container mx-auto">
+  <footer class="bg-gray-900 border-t border-gray-800 mt-12 py-8">
+    <div class="container mx-auto px-4">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0">
-          <p class="text-yellow-500 font-medium">© 2024 Transformers Cinematic Universe</p>
-          <p class="text-gray-400 text-sm">Not affiliated with Hasbro or Paramount</p>
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+              <i class="fas fa-robot text-black text-sm"></i>
+            </div>
+            <span class="text-xl font-bold gradient-text">TRANSFORMERS</span>
+          </div>
+          <p class="text-gray-400 text-sm mt-2">© 2023 Transformers Productions. All rights reserved.</p>
         </div>
-        <div class="flex gap-4">
-          <a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">
-            <i class="fab fa-imdb text-2xl"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">
-            <i class="fab fa-wikipedia-w text-2xl"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">
-            <i class="fas fa-film text-2xl"></i>
-          </a>
+        
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-gray-400 hover:text-yellow-500 transition"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- Playback Modal (hidden by default) -->
+  <div id="playback-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-90">
+    <div class="relative w-full max-w-4xl bg-gray-900 rounded-xl overflow-hidden">
+      <button id="close-modal" class="absolute top-4 right-4 z-50 text-white hover:text-yellow-500 text-2xl">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="aspect-w-16 aspect-h-9">
+        <video id="modal-video" class="w-full" controls>
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="p-6">
+        <h3 id="modal-title" class="text-2xl font-bold mb-2"></h3>
+        <div class="flex items-center text-gray-400 text-sm mb-4">
+          <span class="mr-4">Movie • <span id="episode-num"></span></span>
+          <span>45 min</span>
+        </div>
+        <p id="modal-description" class="text-gray-300 mb-6">
+          Loading description...
+        </p>
+        <div class="flex space-x-3">
+          <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-play mr-2"></i> Play
+          </button>
+          <button class="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-full transition flex items-center">
+            <i class="fas fa-plus mr-2"></i> Watchlist
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Enhanced Movie data with descriptions
     const movies = [
       { 
         title: "Transformers", 
         year: 2007,
-        video: "https://spuc.haddixslone.sbs/v4/lf/lwesd/index-f1-a1.txt", 
+        video: "https://macdn.hakunaymatata.com/resource/ccce920452d599e9072c3c2af2f8eb18.mp4?Expires=1749540070&Signature=7~6cwNFPZHN~AhqyYWDaVoSoueA6Hbr5lq~6qs0H0BY7B5mk-jXWCoAIUYbqjVzr6lFJHMod9WSB1QcFvAZ15clkP45ermuD7fd4LTMsvyudeOKm-pfobk8zJ7TuX0lu3O0e61JZBMThHuxULxN6cjz8Vuh2j9NavHPITxuhlq851org7OgolJM-ii91xMU4hz-DUH6zpixtmonMgSU18TNFL0UtziYyM5j6Jo72QTCl9imFkPdhxisPhXTWln~kGENiEUGrRIpRRDVzN~4guuAZZj6as454fyivb6d7-yc~24wkvzChvfERmdGCr~LuC8aZEpAbe1H4NfPng1Rg~w__&Key-Pair-Id=KMHN1LQ1HEUPL", 
         image: "https://upload.wikimedia.org/wikipedia/en/6/66/Transformers07.jpg",
         runtime: "144 min",
-        rating: "7.0/10"
+        rating: "7.0/10",
+        description: "An ancient struggle between two Cybertronian races, the heroic Autobots and the evil Decepticons, comes to Earth, with a clue to the ultimate power held by a young teenager.",
+        director: "Michael Bay",
+        cast: "Shia LaBeouf, Megan Fox, Josh Duhamel, Tyrese Gibson"
       },
       { 
         title: "Transformers: Revenge of the Fallen", 
         year: 2009,
-        video: "https://sdqm.gomesscheerer.sbs/v4/36/kzwtm/index-f1-v1-a1.txt", 
+        video: "https://macdn.hakunaymatata.com/resource/6510a9e1927b802b5d5317f5282bd420.mp4?Expires=1749545479&Signature=X99HrkVcuFlxIiaLmc8~o4VHN4DTfkMavNCAGqmnmUbuCFTuxi52kLjnMXsljFpON6Q33obaRqKcsMae-Z837mU017q~2kKg92Df7ym9DwrZrpI2eM2Lp-bkYFSQttq0SbUlzwq~evf5XwoU2~JrYLA-ItLP9ooy27HYnkx51xekvLSO~H-KMqgcaZe8vy28ufD-OErgdJLjXAIKSZccbR-ccoTFWPpiItNQAGyvOD4ViNndpuKEN1B25YrP5bElGpcXGzGhyPdcofKIx57vnbW9VFGUAu8RrVmOQozmFD2LgWEutEhkJR1oII~RZ-pve0zkhoSlGjy5O5YLbETg0A__&Key-Pair-Id=KMHN1LQ1HEUPL", 
         image: "https://i.pinimg.com/736x/71/fe/1f/71fe1f9a3dad689e69e9d73ef1da3f5d.jpg",
         runtime: "150 min",
-        rating: "5.9/10"
+        rating: "5.9/10",
+        description: "Sam Witwicky leaves the Autobots to attend college, but he is dragged back into the Transformers' war when he learns the truth about the ancient origins of the Transformers.",
+        director: "Michael Bay",
+        cast: "Shia LaBeouf, Megan Fox, Josh Duhamel, Tyrese Gibson"
       },
       { 
         title: "Transformers: Dark of the Moon", 
         year: 2011,
-        video: "https://sdqm.sipeskrlbtru.sbs:443/v4/js/ozh1g/index-f2-v1-a1.txt", 
+        video: "https://macdn.hakunaymatata.com/resource/0065331cae318779d0b99fdf29a44805.mp4?Expires=1749546464&Signature=ZMGmWM8WITmYY4qot~Ao~wVCNuxaQ~C3g4FyB8944U11ils-KMtUR5y4oyLbg0sQPVK5Igx6JffDHz3c0GoUogGH3UaUak60lGY2ScZ2pCNagPILOehcprFOpX86u~lyRTPQgIZoG5iEiTiv8ORsh0hnWKQdQIBP39JzpcJXOlagx0CArZIklZebf-vrmknx4ti9K091vHnbOBUJIyni-CgWErSl8LA79OK8vfmRry6J7RVsb4CdHiDo2rHEDv~tx-MA~Io3Oz4p-ETBaH4QnCjdRKZ6ZzbUdx5U6ct1-MqfJw250O4qf9vaOAUfLO5Zzvki1RKTmL4IAyBJf27QqA__&Key-Pair-Id=KMHN1LQ1HEUPL", 
         image: "https://preview.redd.it/what-is-the-one-thing-you-would-change-from-transformers-v0-yt164ne88hjb1.jpg?width=640&crop=smart&auto=webp&s=219bdadc4e14813f9c4f55f888db6eb49260c40b",
         runtime: "154 min",
-        rating: "6.2/10"
+        rating: "6.2/10",
+        description: "The Autobots learn of a Cybertronian spacecraft hidden on the Moon, and race against the Decepticons to reach it and learn its secrets, which could turn the tide in the Transformers' final battle.",
+        director: "Michael Bay",
+        cast: "Shia LaBeouf, Rosie Huntington-Whiteley, Josh Duhamel, Tyrese Gibson"
       },
       { 
         title: "Transformers: Age of Extinction", 
         year: 2014,
-        video: "https://skra.disalvozunigam.sbs:443/v4/us/l3hod/index-f2-v1-a1.txt", 
+        video: "https://macdn.hakunaymatata.com/resource/5469084ac83bf20329e7dfcf27d02f76.mp4?Expires=1749538617&Signature=iuT52h8AUAjbUn9juEwZyUo1~5HnL8VHI9fl9rnwoN-nOQXIbHBjTxGZ3KSM13toHAk1lOG3y6biuHf0FrqjndgkUdpgiM85HM2B2CtZ38lWClJYPd-u2elpI4VXbkQH6A7hct6Ldh3VB1vkrKCFyyB7J6z~UavGX3Q9mKj5uXorQp8~zEd3GF6ugUej~NBEFUBTjlB08tqBKkzgKHTGuF1TRr8PVnlylzlWTyix4ZK7TyRhmIVJzZmDO5wJakwN2eGn1VsXdzOuSYxp1ANe7-MA8OHZOX4FRaFEFjwGq9U-701SuK1QywqoVeAnch9RCAFY-yQWSI3N-7J~Yf45-g__&Key-Pair-Id=KMHN1LQ1HEUPL", 
         image: "https://www.scannain.com/media/transformers-age-of-extinction_imax-poster.jpg",
         runtime: "165 min",
-        rating: "5.6/10"
+        rating: "5.6/10",
+        description: "When humanity begins hunting down all Transformers, Optimus Prime enlists the help of a struggling inventor and his daughter to save the Autobots from a powerful new threat.",
+        director: "Michael Bay",
+        cast: "Mark Wahlberg, Nicola Peltz, Jack Reynor, Stanley Tucci"
       },
       { 
         title: "Transformers: The Last Knight", 
         year: 2017,
-        video: "https://s3ae.myersbjhardi.sbs/v4/db/g8an9/cf-master.txt?v=1735250786", 
+        video: "https://macdn.hakunaymatata.com/resource/396684c7597602df62e82480a0b063b5.mp4?Expires=1749544641&Signature=vFu9yRiUejrmZx8WesEYsjjsAV-bxNLWyYRb6Tv4GAiMnHQzeWZExGq3ifp4Tl1Cb0Ipg0egshcNyP7nF5v4TyqcQMl~rxSRQAgORNe~yX6n1HbsN6m74qJQ316NGznQkQX8kn-T-AQfazBBDH1QA-pgCVzX~oNOIgrJNub2UgHVHmq1EWAZR3vzEJD37ubgVQhFxNW9LRot4aE2T3wjHU~lpJptu77QEZQgqEHsTTkZ2rHiYk4zdEePxktfN8b8lO8eq6GgP7~EYUP77U7~0QmReyTJrO5e51lTyQ2XQd5u12qRSmnFdIk8eUkuzbqAHvVcybu6AglEokTikw1GTA__&Key-Pair-Id=KMHN1LQ1HEUPL", 
         image: "https://lh5.googleusercontent.com/proxy/MOBO_F9kF1hKXwgTRaHET0NEdNBEDlXCJ31jbchVTDQYY_Y15u61JGnQQq53oL1EjVjWQUZWF1LhimX1qtLfWzTL7DLJCBYBFdL10DB_A6Xmzip3VaE7_RMpP0bGVWOdnpfqGUcOjRbh-K_eu0HkIn_HQNjVZwAJSBo",
         runtime: "154 min",
-        rating: "5.2/10"
+        rating: "5.2/10",
+        description: "Humans are at war with the Transformers, and Optimus Prime is gone. The key to saving the future lies buried in the secrets of the past and the hidden history of Transformers on Earth.",
+        director: "Michael Bay",
+        cast: "Mark Wahlberg, Anthony Hopkins, Josh Duhamel, Laura Haddock"
       },
       { 
         title: "Bumblebee", 
         year: 2018,
-        video: "https://sxic.killionorellanacoelho.sbs/v4/lf/cgzcn/cf-master.txt?v=1733275675", 
+        video: "https://macdn.hakunaymatata.com/resource/6ef49a7fe52153220447686c87f05810.mp4?Expires=1749541707&Signature=E2Naa3phGkefsgfBaXdXeNAXQdOu-kgqBaykmROXvqJPV3wMs-W7GqWUz93eQO9PNc70T8DMWw7bBpp0nOWHm9FgH4PPs9oIHDg~yfjXjhr6m1U2nBjoY0ENlhu-4DWdNvoyAQrq9EAvUe~Pgpb5hlq8ha1uuUWbHxDXRlE9CGmeUBtP3tX~bJGYfSQ6HSS8AQUYOisOTmMjITIPmHlqmuZH8DLl7MykAc800tWHsFNzL4UfZ~thA4zyGLhyeooZnqmyaOR1iH5duIpYocj12rGog56IeM6JHtGnFmH3zjKabp42Mj-HgDFAVh-Mm7SIM4U4922nnBuanr-wIOleZg__&Key-Pair-Id=KMHN1LQ1HEUPL", 
         image: "https://w0.peakpx.com/wallpaper/244/56/HD-wallpaper-bumblebee-movie-transformers.jpg",
         runtime: "114 min",
-        rating: "6.7/10"
+        rating: "6.7/10",
+        description: "On the run in the year 1987, Bumblebee finds refuge in a junkyard in a small California beach town. Charlie, on the cusp of turning 18 and trying to find her place in the world, discovers him.",
+        director: "Travis Knight",
+        cast: "Hailee Steinfeld, John Cena, Jorge Lendeborg Jr., John Ortiz"
       },
       { 
         title: "Transformers: Rise of the Beasts", 
         year: 2023,
-        video: "https://sipt.thurberdvob.sbs:443/v4/ho/xsl8o/index-f2-v1-a1.txt", 
+        video: "https://macdn.hakunaymatata.com/resource/956f15b2fb0ecba437d2c9f504a16a2a.mp4?Expires=1749541967&Signature=fScvaa6oRMGclGvywB4aQwHj5K-MCuyTu7-xlyoMQs0a7YjjNlAUgKq3~Y4F-8KBk~qZL3WMas-fdKZfHVSWIJGJ1aBOi6ne7aqNpxH8oXRPIRDxnqDtzhALmJeYTepkR6kl75F07aQkcJzrCJkVWvTHjxm7m65OTY9pO5sZJcWEY4-i8mmR2Qx7zOdH-4CCXiuSTFiYlStHYrdyTs08Y7Acl6e4xAo7Jna2O1hDuP56KY~DF-P0kf3ms8na8ZHPKsqVIkWiVWsc07Ac-bcftBQpsJr4Bw-L3cpcWEjkIzyUJXxWlzEAEO12WMPRLHzH8fOdF2YHAMY~9CArdlYPFw__&Key-Pair-Id=KMHN1LQ1HEUPL", 
         image: "https://images.squarespace-cdn.com/content/v1/521dec4de4b0912f523f3b56/1706737525171-93MAOV803L21A8BQ5AOZ/transformers-7-poster.jpg?format=2500w",
         runtime: "127 min",
-        rating: "6.1/10"
+        rating: "6.1/10",
+        description: "During the '90s, a new faction of Transformers - the Maximals - join the Autobots as allies in the battle for Earth against the evil Decepticons and their new leader, Scourge.",
+        director: "Steven Caple Jr.",
+        cast: "Anthony Ramos, Dominique Fishback, Luna Lauren Velez, Dean Scott Vazquez"
       },
       { 
         title: "Transformers One", 
         year: 2024,
-        video: "https://vwyn3lxe5fv5.cdn-centaurus.com:443/hls2/01/05205/8ufjgwgsea71_,l,n,h,x,.urlset/index-f4-v1-a1.m3u8?t=J82aEaz9qxW0-F7lwD53GQWOo9nBKNdDTPhpsR0p1Ns&s=1747712652&e=129600&f=26027071&srv=3FjgDmcnea8S35m&i=0.4&sp=500&p1=3FjgDmcnea8S35m&p2=3FjgDmcnea8S35m&asn=24554", 
+        video: "https://macdn.hakunaymatata.com/resource/3bdec071e01182018284d97ad4b9ca58.mp4?Expires=1749540117&Signature=vnjwf93~MbvGPcbtIrLETBNGTcOYqr7GqNT08GkGMl72HMqCppm03YQSSRq6lzZp1H6PHL48CjL6Y7L684RQ~qjcr9oeBrKRWYjUJicnEDxx~QbhiKDC9ya54pZeaUS8~4TjFLClfXpPhwH4LsAsctM6r9sBtHX2QBKxf5QYQImUfesWN7n-jHKr9rgQqmjve~ru6rFZyT87-6vtXZOYNrKWbjp1cvr6EZCaI3t119FYwppOcfcEL9ddVsZIWiQbO7HVbOYuINsENJ-HwPgeW2Tt7Nn3vZYBkZULye-694wUQDF-9B3fRpeImE9V3ZMnxIuXdphajxeQemhbnh5nyw__&Key-Pair-Id=KMHN1LQ1HEUPL", 
         image: "https://m.media-amazon.com/images/M/MV5BZTJmMDA2MmEtODMxNS00ZjhhLTlkNWMtN2NkODI4ODU5ZWYzXkEyXkFqcGc@._V1_.jpg",
         runtime: "104 min",
-        rating: "TBD"
+        rating: "TBD",
+        description: "An animated origin story of Optimus Prime and Megatron, showing how they went from brothers-in-arms to becoming sworn enemies in the legendary war for Cybertron.",
+        director: "Josh Cooley",
+        cast: "Chris Hemsworth, Brian Tyree Henry, Scarlett Johansson, Keegan-Michael Key"
       },
     ];
 
-    // Sort movies by year (newest first)
-    movies.sort((a, b) => b.year - a.year);
-
+    // DOM elements
     const container = document.getElementById('movies');
-    const loadingElement = document.getElementById('loading');
-    const noResultsElement = document.getElementById('noResults');
-    const searchBar = document.getElementById('searchBar');
+    const searchBtn = document.getElementById('search-btn');
+    const searchBar = document.getElementById('search-bar');
+    const themeToggle = document.getElementById('theme-toggle');
+    const playbackModal = document.getElementById('playback-modal');
+    const closeModal = document.getElementById('close-modal');
+    const modalVideo = document.getElementById('modal-video');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const episodeNum = document.getElementById('episode-num');
 
-    // Simulate loading
-    setTimeout(() => {
-      loadingElement.classList.add('hidden');
-      renderMovies(movies);
-    }, 800);
-
-    function renderMovies(moviesToRender) {
-      container.innerHTML = '';
-      
-      if (moviesToRender.length === 0) {
-        noResultsElement.classList.remove('hidden');
-        return;
-      } else {
-        noResultsElement.classList.add('hidden');
-      }
-      
-      moviesToRender.forEach((movie, index) => {
-        const div = document.createElement('div');
-        div.className = 'movie-card relative rounded-xl overflow-hidden fade-in';
-        div.innerHTML = `
-          <div class="year-badge bg-yellow-500 text-black font-bold text-xs px-2 py-1 rounded-full">
-            ${movie.year}
-          </div>
-          <img src="${movie.image}" 
-               alt="${movie.title}" 
-               class="movie-poster w-full h-80 object-cover rounded-lg">
-          <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
-            <h3 class="text-white font-bold text-lg truncate">${movie.title}</h3>
-            <div class="flex justify-between items-center mt-2 text-sm">
-              <span class="text-yellow-400"><i class="fas fa-clock mr-1"></i> ${movie.runtime}</span>
-              <span class="text-yellow-400"><i class="fas fa-star mr-1"></i> ${movie.rating}</span>
+    // Initialize the page
+    function initPage() {
+      // Create movie cards
+      movies.forEach((movie, index) => {
+        const card = document.createElement('div');
+        card.className = `movie-card fade-in delay-${index % 5} glow-effect`;
+        card.innerHTML = `
+          <div class="relative group overflow-hidden rounded-xl cursor-pointer">
+            <img src="${movie.image}" alt="${movie.title}" 
+                 class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-xl transition duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <div>
+                <h3 class="text-white font-semibold text-lg">${movie.title}</h3>
+                <p class="text-gray-300 text-sm">${movie.runtime}</p>
+              </div>
             </div>
-            <button class="mt-3 w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
-              <i class="fas fa-play"></i> Watch Now
-            </button>
+            <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-yellow-500 rounded-full w-10 h-10 flex items-center justify-center">
+              <i class="fas fa-play"></i>
+            </div>
+            <div class="absolute top-3 left-3 bg-black bg-opacity-70 text-yellow-500 rounded-full px-2 py-1 text-xs">
+              ${movie.rating}
+            </div>
+          </div>
+          <div class="mt-3">
+            <h3 class="text-white font-medium">${movie.title}</h3>
+            <div class="flex items-center text-gray-400 text-sm mt-1">
+              <span>${movie.year}</span>
+              <span class="mx-2">•</span>
+              <span>${movie.runtime}</span>
+            </div>
           </div>
         `;
         
-        div.addEventListener('click', () => {
-          const url = `player.html?title=${encodeURIComponent(movie.title)}&video=${encodeURIComponent(movie.video)}&index=${index}`;
-          window.location.href = url;
+        card.addEventListener('click', () => {
+          openModal(movie, index + 1);
         });
         
-        container.appendChild(div);
+        container.appendChild(card);
+      });
+
+      // Filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelector('.filter-btn.active').classList.remove('active', 'bg-yellow-600', 'text-black');
+          this.classList.add('active', 'bg-yellow-600', 'text-black');
+        });
       });
     }
 
-    // Live Search Filter
-    searchBar.addEventListener('input', function() {
-      const searchTerm = this.value.toLowerCase();
-      const filteredMovies = movies.filter(movie => 
-        movie.title.toLowerCase().includes(searchTerm) || 
-        movie.year.toString().includes(searchTerm)
-      );
+    // Open modal with movie details
+    function openModal(movie, episodeNumber) {
+      modalTitle.textContent = movie.title;
+      modalDescription.textContent = movie.description;
+      episodeNum.textContent = episodeNumber;
+      modalVideo.src = movie.video;
       
-      renderMovies(filteredMovies);
+      playbackModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close modal
+    function closeModalHandler() {
+      playbackModal.classList.add('hidden');
+      modalVideo.pause();
+      document.body.style.overflow = '';
+    }
+
+    // Event listeners
+    searchBtn.addEventListener('click', () => {
+      searchBar.classList.toggle('hidden');
     });
 
-    // Add keyboard shortcut for search (Ctrl/Cmd + K)
-    document.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        searchBar.focus();
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('bg-gray-100');
+      document.body.classList.toggle('text-gray-900');
+      document.body.classList.toggle('bg-black');
+      document.body.classList.toggle('text-gray-100');
+      
+      const icon = themeToggle.querySelector('i');
+      if (document.body.classList.contains('bg-black')) {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
       }
     });
+
+    closeModal.addEventListener('click', closeModalHandler);
+    playbackModal.addEventListener('click', function(e) {
+      if (e.target === this) closeModalHandler();
+    });
+
+    // Initialize the page when loaded
+    window.addEventListener('DOMContentLoaded', initPage);
   </script>
 </body>
 </html>
