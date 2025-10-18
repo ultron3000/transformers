@@ -224,206 +224,108 @@
     </div>
   </div>
 
-  <script>
-    // Enhanced Movie data with descriptions
-    const movies = [
-      { 
-        title: "Transformers", 
-        year: 2007,
-        video: "https://sojg.generatortransactor.cfd/v4/lf/lwesd/index-f1-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/250x400/7e/6d/7e6d2f7a1b42d5c98f6d6ef4dcedf6e2/7e6d2f7a1b42d5c98f6d6ef4dcedf6e2.jpg",
-        runtime: "144 min",
-        rating: "7.0/10",
-        description: "An ancient struggle between two Cybertronian races, the heroic Autobots and the evil Decepticons, comes to Earth, with a clue to the ultimate power held by a young teenager.",
-        director: "Michael Bay",
-        cast: "Shia LaBeouf, Megan Fox, Josh Duhamel, Tyrese Gibson"
-      },
-      { 
-        title: "Transformers: Revenge of the Fallen", 
-        year: 2009,
-        video: "https://s9dz.responsiveconverter.shop/v4/36/kzwtm/index-f1-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/250x400/f7/88/f788c5aee12b2c76d49fb6d01b56e06b/f788c5aee12b2c76d49fb6d01b56e06b.jpg",
-        runtime: "150 min",
-        rating: "5.9/10",
-        description: "Sam Witwicky leaves the Autobots to attend college, but he is dragged back into the Transformers' war when he learns the truth about the ancient origins of the Transformers.",
-        director: "Michael Bay",
-        cast: "Shia LaBeouf, Megan Fox, Josh Duhamel, Tyrese Gibson"
-      },
-      { 
-        title: "Transformers: Dark of the Moon", 
-        year: 2011,
-        video: "https://smeb.technologyapproximate.shop/v4/js/ozh1g/index-f1-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/250x400/4e/93/4e9371299eae7083b3632d7a80d2df35/4e9371299eae7083b3632d7a80d2df35.jpg",
-        runtime: "154 min",
-        rating: "6.2/10",
-        description: "The Autobots learn of a Cybertronian spacecraft hidden on the Moon, and race against the Decepticons to reach it and learn its secrets, which could turn the tide in the Transformers' final battle.",
-        director: "Michael Bay",
-        cast: "Shia LaBeouf, Rosie Huntington-Whiteley, Josh Duhamel, Tyrese Gibson"
-      },
-      { 
-        title: "Transformers: Age of Extinction", 
-        year: 2014,
-        video: "https://g4vsrqvtrj.automationfuturegrid.online/haibokmmzopl/hls3/01/00387/qi2phlara8ru_h/master.txt", 
-        image: "https://f.woowoowoowoo.net/resize/250x400/d7/c3/d7c3441f36787f79f393281b2a7c7c52/d7c3441f36787f79f393281b2a7c7c52.jpg",
-        runtime: "165 min",
-        rating: "5.6/10",
-        description: "When humanity begins hunting down all Transformers, Optimus Prime enlists the help of a struggling inventor and his daughter to save the Autobots from a powerful new threat.",
-        director: "Michael Bay",
-        cast: "Mark Wahlberg, Nicola Peltz, Jack Reynor, Stanley Tucci"
-      },
-      { 
-        title: "Transformers: The Last Knight", 
-        year: 2017,
-        video: "https://m5qilv3g2l.digitalzonelabs.space/m2q5ea5w42hk/hls3/01/01186/l8c6nmcmos3n_o/master.txt", 
-        image: "https://f.woowoowoowoo.net/resize/250x400/37/df/37dfe388a8ba1264bf241afb0809e9a6/37dfe388a8ba1264bf241afb0809e9a6.jpg",
-        runtime: "154 min",
-        rating: "5.2/10",
-        description: "Humans are at war with the Transformers, and Optimus Prime is gone. The key to saving the future lies buried in the secrets of the past and the hidden history of Transformers on Earth.",
-        director: "Michael Bay",
-        cast: "Mark Wahlberg, Anthony Hopkins, Josh Duhamel, Laura Haddock"
-      },
-      { 
-        title: "Bumblebee", 
-        year: 2018,
-        video: "https://skra.orbitbitora.shop/v4/lf/cgzcn/index-f1-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/250x400/cb/37/cb370034045bc8027d9e9c12bab48114/cb370034045bc8027d9e9c12bab48114.jpg",
-        runtime: "114 min",
-        rating: "6.7/10",
-        description: "On the run in the year 1987, Bumblebee finds refuge in a junkyard in a small California beach town. Charlie, on the cusp of turning 18 and trying to find her place in the world, discovers him.",
-        director: "Travis Knight",
-        cast: "Hailee Steinfeld, John Cena, Jorge Lendeborg Jr., John Ortiz"
-      },
-      { 
-        title: "Transformers: Rise of the Beasts", 
-        year: 2023,
-        video: "https://s6p9.performanceactivation.shop/v4/ho/xsl8o/index-f1-v1-a1.txt", 
-        image: "https://f.woowoowoowoo.net/resize/250x400/cb/37/cb370034045bc8027d9e9c12bab48114/cb370034045bc8027d9e9c12bab48114.jpg",
-        runtime: "127 min",
-        rating: "6.1/10",
-        description: "During the '90s, a new faction of Transformers - the Maximals - join the Autobots as allies in the battle for Earth against the evil Decepticons and their new leader, Scourge.",
-        director: "Steven Caple Jr.",
-        cast: "Anthony Ramos, Dominique Fishback, Luna Lauren Velez, Dean Scott Vazquez"
-      },
-      { 
-        title: "Transformers One", 
-        year: 2024,
-        video: "https://vip.opstream11.com:443/20241023/55562_2173436c/3000k/hls/mixed.m3u8", 
-        image: "https://f.woowoowoowoo.net/resize/250x400/0f/5a/0f5aa65182ca20b8fde29887e4b3abb4/0f5aa65182ca20b8fde29887e4b3abb4.jpg",
-        runtime: "104 min",
-        rating: "TBD",
-        description: "An animated origin story of Optimus Prime and Megatron, showing how they went from brothers-in-arms to becoming sworn enemies in the legendary war for Cybertron.",
-        director: "Josh Cooley",
-        cast: "Chris Hemsworth, Brian Tyree Henry, Scarlett Johansson, Keegan-Michael Key"
-      },
-    ];
+<!-- Replace your entire <script>...</script> block with this -->
+<script>
+  // Movie data (unchanged)
+  const movies = [
+    { 
+      title: "Transformers", 
+      year: 2007,
+      video: "https://sojg.generatortransactor.cfd/v4/lf/lwesd/index-f1-v1-a1.txt", 
+      image: "https://f.woowoowoowoo.net/resize/250x400/7e/6d/7e6d2f7a1b42d5c98f6d6ef4dcedf6e2/7e6d2f7a1b42d5c98f6d6ef4dcedf6e2.jpg",
+      runtime: "144 min",
+      rating: "7.0/10",
+      description: "An ancient struggle between two Cybertronian races, the heroic Autobots and the evil Decepticons, comes to Earth, with a clue to the ultimate power held by a young teenager.",
+      director: "Michael Bay",
+      cast: "Shia LaBeouf, Megan Fox, Josh Duhamel, Tyrese Gibson"
+    },
+    // ... (keep rest of movie list unchanged)
+  ];
 
-    // DOM elements
-    const container = document.getElementById('movies');
-    const searchBtn = document.getElementById('search-btn');
-    const searchBar = document.getElementById('search-bar');
-    const themeToggle = document.getElementById('theme-toggle');
-    const playbackModal = document.getElementById('playback-modal');
-    const closeModal = document.getElementById('close-modal');
-    const modalVideo = document.getElementById('modal-video');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const episodeNum = document.getElementById('episode-num');
+  // DOM elements
+  const container = document.getElementById('movies');
+  const searchBtn = document.getElementById('search-btn');
+  const searchBar = document.getElementById('search-bar');
+  const themeToggle = document.getElementById('theme-toggle');
 
-    // Initialize the page
-    function initPage() {
-      // Create movie cards
-      movies.forEach((movie, index) => {
-        const card = document.createElement('div');
-        card.className = `movie-card fade-in delay-${index % 5} glow-effect`;
-        card.innerHTML = `
-          <div class="relative group overflow-hidden rounded-xl cursor-pointer">
-            <img src="${movie.image}" alt="${movie.title}" 
-                 class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-xl transition duration-500 group-hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <div>
-                <h3 class="text-white font-semibold text-lg">${movie.title}</h3>
-                <p class="text-gray-300 text-sm">${movie.runtime}</p>
-              </div>
-            </div>
-            <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-yellow-500 rounded-full w-10 h-10 flex items-center justify-center">
-              <i class="fas fa-play"></i>
-            </div>
-            <div class="absolute top-3 left-3 bg-black bg-opacity-70 text-yellow-500 rounded-full px-2 py-1 text-xs">
-              ${movie.rating}
+  // Initialize the page
+  function initPage() {
+    // Create movie cards
+    movies.forEach((movie, index) => {
+      const card = document.createElement('div');
+      card.className = `movie-card fade-in delay-${index % 5} glow-effect`;
+      card.innerHTML = `
+        <div class="relative group overflow-hidden rounded-xl cursor-pointer">
+          <img src="${movie.image}" alt="${movie.title}" 
+               class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-xl transition duration-500 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div>
+              <h3 class="text-white font-semibold text-lg">${movie.title}</h3>
+              <p class="text-gray-300 text-sm">${movie.runtime}</p>
             </div>
           </div>
-          <div class="mt-3">
-            <h3 class="text-white font-medium">${movie.title}</h3>
-            <div class="flex items-center text-gray-400 text-sm mt-1">
-              <span>${movie.year}</span>
-              <span class="mx-2">•</span>
-              <span>${movie.runtime}</span>
-            </div>
+          <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-yellow-500 rounded-full w-10 h-10 flex items-center justify-center">
+            <i class="fas fa-play"></i>
           </div>
-        `;
-        
-        card.addEventListener('click', () => {
-          openModal(movie, index + 1);
+          <div class="absolute top-3 left-3 bg-black bg-opacity-70 text-yellow-500 rounded-full px-2 py-1 text-xs">
+            ${movie.rating}
+          </div>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-white font-medium">${movie.title}</h3>
+          <div class="flex items-center text-gray-400 text-sm mt-1">
+            <span>${movie.year}</span>
+            <span class="mx-2">•</span>
+            <span>${movie.runtime}</span>
+          </div>
+        </div>
+      `;
+      
+      // 🟢 Redirect to player.html with video and title
+      card.addEventListener('click', () => {
+        const params = new URLSearchParams({
+          title: movie.title,
+          video: movie.video
         });
-        
-        container.appendChild(card);
+        window.location.href = `player.html?${params.toString()}`;
       });
 
-      // Filter buttons
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          document.querySelector('.filter-btn.active').classList.remove('active', 'bg-yellow-600', 'text-black');
-          this.classList.add('active', 'bg-yellow-600', 'text-black');
-        });
+      container.appendChild(card);
+    });
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelector('.filter-btn.active').classList.remove('active', 'bg-yellow-600', 'text-black');
+        this.classList.add('active', 'bg-yellow-600', 'text-black');
       });
-    }
-
-    // Open modal with movie details
-    function openModal(movie, episodeNumber) {
-      modalTitle.textContent = movie.title;
-      modalDescription.textContent = movie.description;
-      episodeNum.textContent = episodeNumber;
-      modalVideo.src = movie.video;
-      
-      playbackModal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
-
-    // Close modal
-    function closeModalHandler() {
-      playbackModal.classList.add('hidden');
-      modalVideo.pause();
-      document.body.style.overflow = '';
-    }
-
-    // Event listeners
-    searchBtn.addEventListener('click', () => {
-      searchBar.classList.toggle('hidden');
     });
+  }
 
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('bg-gray-100');
-      document.body.classList.toggle('text-gray-900');
-      document.body.classList.toggle('bg-black');
-      document.body.classList.toggle('text-gray-100');
-      
-      const icon = themeToggle.querySelector('i');
-      if (document.body.classList.contains('bg-black')) {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-      } else {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-      }
-    });
+  // Event listeners
+  searchBtn.addEventListener('click', () => {
+    searchBar.classList.toggle('hidden');
+  });
 
-    closeModal.addEventListener('click', closeModalHandler);
-    playbackModal.addEventListener('click', function(e) {
-      if (e.target === this) closeModalHandler();
-    });
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('bg-gray-100');
+    document.body.classList.toggle('text-gray-900');
+    document.body.classList.toggle('bg-black');
+    document.body.classList.toggle('text-gray-100');
+    
+    const icon = themeToggle.querySelector('i');
+    if (document.body.classList.contains('bg-black')) {
+      icon.classList.remove('fa-sun');
+      icon.classList.add('fa-moon');
+    } else {
+      icon.classList.remove('fa-moon');
+      icon.classList.add('fa-sun');
+    }
+  });
 
-    // Initialize the page when loaded
-    window.addEventListener('DOMContentLoaded', initPage);
-  </script>
+  // Init on load
+  window.addEventListener('DOMContentLoaded', initPage);
+</script>
+
 </body>
 </html>
