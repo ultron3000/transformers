@@ -117,19 +117,27 @@
 <!-- Main Content -->
 <main class="container mx-auto px-4 py-8">
   <!-- Hero Section -->
-  <section class="mb-12 relative overflow-hidden rounded-xl">
+  <section class="mb-12 relative overflow-hidden rounded-xl aspect-video">
     <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent z-10"></div>
-    <iframe 
-      class="w-full h-64 md:h-96 object-cover"
-      src="https://www.youtube.com/embed/yAu3YqQd-Bw?autoplay=1&mute=1&loop=1&playlist=yAu3YqQd-Bw&controls=0&modestbranding=1&showinfo=0"
-      title="YouTube video player"
-      frameborder="0"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
+
+    <!-- Responsive Video Wrapper -->
+    <div class="absolute inset-0 overflow-hidden">
+      <iframe
+        class="absolute top-1/2 left-1/2 w-[120%] h-[120%] -translate-x-1/2 -translate-y-1/2"
+        src="https://www.youtube.com/embed/yAu3YqQd-Bw?autoplay=1&mute=1&loop=1&playlist=yAu3YqQd-Bw&controls=0&modestbranding=1&showinfo=0"
+        title="YouTube video player"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- Overlay Content -->
     <div class="absolute bottom-0 left-0 z-20 p-6 md:p-8">
       <h2 class="text-3xl md:text-5xl font-bold mb-2 gradient-text"></h2>
-      <p class="text-gray-300 mb-4 max-w-lg">The complete collection of the Transformers live-action films. More than meets the eye.</p>
+      <p class="text-gray-300 mb-4 max-w-lg">
+        The complete collection of the Transformers live-action films. More than meets the eye.
+      </p>
       <div class="flex space-x-3">
         <button class="bg-yellow-600 hover:bg-yellow-700 text-black font-semibold py-2 px-6 rounded-full transition flex items-center">
           <i class="fas fa-play mr-2"></i> Play All
@@ -138,6 +146,7 @@
     </div>
   </section>
 </main>
+
 
 
     <!-- Filters -->
